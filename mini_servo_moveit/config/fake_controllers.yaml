@@ -1,0 +1,9 @@
+controller_list:
+  - name: fake_mini_servo_arm_controller
+    joints:
+      - mini_servo_joint_1
+      - mini_servo_joint_2
+      - mini_servo_joint_3
+      - mini_servo_joint_4
+      - mini_servo_joint_5
+      - mini_servo_joint_6

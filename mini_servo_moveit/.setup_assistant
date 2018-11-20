@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: ""
+    relative_path: /home/mdicicco/mini_servo.urdf
+    xacro_args: "--inorder "
+  SRDF:
+    relative_path: config/mini_servo.srdf
+  CONFIG:
+    author_name: Matt DiCicco
+    author_email: mdicicco@gmail.com
+    generated_timestamp: 1542420863

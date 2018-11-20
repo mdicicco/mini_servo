@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<robot name="mini_servo" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Import Rviz colors -->
+  <xacro:include filename="$(find mini_servo_model)/urdf/materials.xacro" />
+
+  <!--Import the mini_servo macro -->
+  <xacro:include filename="$(find mini_servo_model)/urdf/mini_servo.xacro"/>
+
+  <!--Parameters -->
+  <xacro:arg name="hardware_interface" default="PositionJointInterface"/>
+  <xacro:arg name="robot_name" default="mini_servo"/>
+  <xacro:arg name="origin_xyz" default="0 0 0"/>
+  <xacro:arg name="origin_rpy" default="0 0 0"/>
+
+  <!-- Fix to world, change if mounted to something -->
+  <link name="world"/>
+
+  <!--mini_servo robot-->
+  <xacro:mini_servo hardware_interface="$(arg hardware_interface)" robot_name="$(arg robot_name)" parent="world">
+    <origin xyz="$(arg origin_xyz)" rpy="$(arg origin_rpy)" />
+  </xacro:mini_servo>
+
+</robot>

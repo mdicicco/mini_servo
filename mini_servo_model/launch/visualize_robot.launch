@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!--Loads all the config files and parameters and nodes to visualize the basic robot
+      RVIZ still needs to be run seperately to see the robot-->
+
+    <!--Load the URDF file for the robot -->
+    <include file="$(find mini_servo_model)/launch/mini_servo_desc.launch"/>
+
+    <!--Load a joint state publisher to publish fake joint data-->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"
+	  output="screen" args="_use_gui:=true"/>
+
+    <!--Load the URDF file for the robot -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+	  output="screen"/>
+
+</launch>

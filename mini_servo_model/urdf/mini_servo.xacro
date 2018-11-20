@@ -1,0 +1,310 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Import all Gazebo-customization elements, including Gazebo colors -->
+  <xacro:include filename="$(find mini_servo_model)/urdf/mini_servo.gazebo.xacro" />
+
+  <!-- Import Transmissions -->
+  <xacro:include filename="$(find mini_servo_model)/urdf/mini_servo.transmission.xacro" />
+
+  <!-- Include Utilities -->
+  <xacro:include filename="$(find mini_servo_model)/urdf/utilities.xacro" />
+
+  <!-- some constants -->
+  <xacro:property name="safety_controller_k_pos" value="100" />
+  <xacro:property name="safety_controller_k_vel" value="2" />
+  <xacro:property name="joint_damping" value="0.5" />
+  <xacro:property name="max_effort" value="300"/>
+  <xacro:property name="max_velocity" value="10"/>
+
+  <xacro:macro name="mini_servo" params="parent hardware_interface robot_name *origin">
+
+    <!--joint between {parent} and link_0-->
+    <joint name="${parent}_${robot_name}_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${robot_name}_link_0"/>
+    </joint>
+
+    <link name="${robot_name}_link_0">
+      <inertial>
+	<origin xyz="0 0 0.00725" rpy="0 0 0"/>
+	<mass value="0.050"/>
+	<inertia ixx="0.001"  ixy="0"  ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+      </inertial>
+
+      <visual>
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<geometry>
+	  <mesh filename="package://mini_servo_model/urdf/meshes/visual/link_0.stl" scale="0.001 0.001 0.001"/>
+	</geometry>
+	<material name="Grey"/>
+      </visual>
+
+      <collision>
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<geometry>
+	  <mesh filename="package://mini_servo_model/urdf/meshes/collision/link_0.stl" scale="0.001 0.001 0.001"/>
+	</geometry>
+	<material name="Grey"/>
+      </collision>
+
+      <self_collision_checking>
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<geometry>
+	  <capsule radius="0.15" length="0.25"/>
+	</geometry>
+      </self_collision_checking>
+
+    </link>
+
+    <!-- joint between link_0 and link_1 -->
+    <joint name="${robot_name}_joint_1" type="revolute">
+      <parent link="${robot_name}_link_0"/>
+      <child link="${robot_name}_link_1"/>
+      <origin xyz="0 0 0.0145" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-124.0 * PI / 180}" upper="${90.0 * PI / 180}"
+	     effort="${max_effort}" velocity="${max_velocity}" />
+      <safety_controller soft_lower_limit="${-123.0 * PI / 180}"
+			 soft_upper_limit="${89.0 * PI / 180}"
+			 k_position="${safety_controller_k_pos}"
+			 k_velocity="${safety_controller_k_vel}"/>
+      <dynamics damping="${joint_damping}"/>
+    </joint>
+
+    <link name="${robot_name}_link_1">
+      <inertial>
+	<origin xyz="0 0.0175 0.045" rpy="0 0 0"/>
+	<mass value="0.050"/>
+	<inertia ixx="0.005"  ixy="0"  ixz="0" iyy="0.005" iyz="0" izz="0.005" />
+      </inertial>
+
+      <visual>
+	<origin xyz="0 0 0" rpy="0 0 ${PI}"/>
+	<geometry>
+	  <mesh filename="package://mini_servo_model/urdf/meshes/visual/link_1.stl" scale="0.001 0.001 0.001"/>
+	</geometry>
+	<material name="Grey"/>
+      </visual>
+
+      <collision>
+	<origin xyz="0 0 0" rpy="0 0 ${PI}"/>
+	<geometry>
+	  <mesh filename="package://mini_servo_model/urdf/meshes/collision/link_1.stl" scale="0.001 0.001 0.001"/>
+	</geometry>
+	<material name="Grey"/>
+      </collision>
+    </link>
+
+    <!-- joint between link_1 and link_2 -->
+    <joint name="${robot_name}_joint_2" type="revolute">
+      <parent link="${robot_name}_link_1"/>
+      <child link="${robot_name}_link_2"/>
+      <origin xyz="0.035 0 0.090" rpy="${-PI / 2} ${PI} 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-80.0 * PI / 180}" upper="${63.0 * PI / 180}"
+	     effort="${max_effort}" velocity="${max_velocity}" />
+      <safety_controller soft_lower_limit="${-79 * PI / 180}"
+			 soft_upper_limit="${62 * PI / 180}"
+			 k_position="${safety_controller_k_pos}"
+			 k_velocity="${safety_controller_k_vel}"/>
+      <dynamics damping="${joint_damping}"/>
+    </joint>
+
+    <link name="${robot_name}_link_2">
+      <inertial>
+	<origin xyz="0.0 0.060 0.0" rpy="0 0 0"/>
+	<mass value="0.050"/>
+	<inertia ixx="0.005"  ixy="0"  ixz="0" iyy="0.005" iyz="0" izz="0.005" />
+      </inertial>
+
+      <visual>
+	<origin xyz="0 0 0" rpy="${PI / 2} 0 ${PI / 2}"/>
+	<geometry>
+	  <mesh filename="package://mini_servo_model/urdf/meshes/visual/link_2.stl" scale="0.001 0.001 0.001"/>
+	</geometry>
+	<material name="Grey"/>
+      </visual>
+
+      <collision>
+	<origin xyz="0 0 0" rpy="${PI / 2} 0 ${PI / 2}"/>
+	<geometry>
+	  <mesh filename="package://mini_servo_model/urdf/meshes/collision/link_2.stl" scale="0.001 0.001 0.001"/>
+	</geometry>
+	<material name="Grey"/>
+      </collision>
+    </link>
+
+    <!-- joint between link_2 and link_3 -->
+    <joint name="${robot_name}_joint_3" type="revolute">
+      <parent link="${robot_name}_link_2"/>
+      <child link="${robot_name}_link_3"/>
+      <origin xyz="0 0.120 0" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-63.0 * PI / 180}" upper="${67.0 * PI / 180}"
+	     effort="${max_effort}" velocity="${max_velocity}" />
+      <safety_controller soft_lower_limit="${-62 * PI / 180}"
+			 soft_upper_limit="${66 * PI / 180}"
+			 k_position="${safety_controller_k_pos}"
+			 k_velocity="${safety_controller_k_vel}"/>
+      <dynamics damping="${joint_damping}"/>
+    </joint>
+
+    <link name="${robot_name}_link_3">
+      <inertial>
+	<origin xyz="0.030 0.020 0.0" rpy="0 0 0"/>
+	<mass value="0.050"/>
+	<inertia ixx="0.005"  ixy="0"  ixz="0" iyy="0.005" iyz="0" izz="0.005" />
+      </inertial>
+
+      <visual>
+	<origin xyz="0 0 0" rpy="${-PI / 2} 0 0"/>
+	<geometry>
+	  <mesh filename="package://mini_servo_model/urdf/meshes/visual/link_3.stl" scale="0.001 0.001 0.001"/>
+	</geometry>
+	<material name="Grey"/>
+      </visual>
+
+      <collision>
+	<origin xyz="0 0 0" rpy="${-PI / 2} 0 0"/>
+	<geometry>
+	  <mesh filename="package://mini_servo_model/urdf/meshes/collision/link_3.stl" scale="0.001 0.001 0.001"/>
+	</geometry>
+	<material name="Grey"/>
+      </collision>
+    </link>
+
+    <!-- joint between link_3 and link_4 -->
+    <joint name="${robot_name}_joint_4" type="revolute">
+      <parent link="${robot_name}_link_3"/>
+      <child link="${robot_name}_link_4"/>
+      <origin xyz="-0.0175 0.01875 0.0" rpy="0 ${-PI / 2} 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-115.0 * PI / 180}" upper="${100.0 * PI / 180}"
+	     effort="${max_effort}" velocity="${max_velocity}" />
+      <safety_controller soft_lower_limit="${-114 * PI / 180}"
+			 soft_upper_limit="${99 * PI / 180}"
+			 k_position="${safety_controller_k_pos}"
+			 k_velocity="${safety_controller_k_vel}"/>
+      <dynamics damping="${joint_damping}"/>
+    </joint>
+
+    <link name="${robot_name}_link_4">
+      <inertial>
+	<origin xyz="0 0.067 0.034" rpy="0 0 0"/>
+	<mass value="2.7"/>
+	<inertia ixx="0.03"  ixy="0"  ixz="0" iyy="0.01" iyz="0" izz="0.029" />
+      </inertial>
+
+      <visual>
+	<origin xyz="0 0 0" rpy="${-PI / 2} 0 0"/>
+	<geometry>
+	  <mesh filename="package://mini_servo_model/urdf/meshes/visual/link_4.stl" scale="0.001 0.001 0.001"/>
+	</geometry>
+	<material name="Grey"/>
+      </visual>
+
+      <collision>
+	<origin xyz="0 0 0" rpy="${-PI / 2} 0 0"/>
+	<geometry>
+	  <mesh filename="package://mini_servo_model/urdf/meshes/collision/link_4.stl" scale="0.001 0.001 0.001"/>
+	</geometry>
+	<material name="Grey"/>
+      </collision>
+    </link>
+
+    <!-- joint between link_4 and link_5 -->
+    <joint name="${robot_name}_joint_5" type="revolute">
+      <parent link="${robot_name}_link_4"/>
+      <child link="${robot_name}_link_5"/>
+      <origin xyz="0 0 0.110" rpy="0 ${-PI / 2} ${PI}"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-66.0 * PI / 180}" upper="${112.0 * PI / 180}"
+	     effort="${max_effort}" velocity="${max_velocity}" />
+      <safety_controller soft_lower_limit="${-65 * PI / 180}"
+			 soft_upper_limit="${111 * PI / 180}"
+			 k_position="${safety_controller_k_pos}"
+			 k_velocity="${safety_controller_k_vel}"/>
+      <dynamics damping="${joint_damping}"/>
+    </joint>
+
+    <link name="${robot_name}_link_5">
+      <inertial>
+	<origin xyz="0.0 0.0 0.055" rpy="0 0 0"/>
+	<mass value="0.025"/>
+	<inertia ixx="0.001"  ixy="0"  ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+      </inertial>
+
+      <visual>
+	<origin xyz="0 0 0" rpy="${-PI / 2} 0 0"/>
+	<geometry>
+	  <mesh filename="package://mini_servo_model/urdf/meshes/visual/link_5.stl" scale="0.001 0.001 0.001"/>
+	</geometry>
+	<material name="Grey"/>
+      </visual>
+
+      <collision>
+	<origin xyz="0 0 0" rpy="${-PI / 2} 0 0"/>
+	<geometry>
+	  <mesh filename="package://mini_servo_model/urdf/meshes/collision/link_5.stl" scale="0.001 0.001 0.001"/>
+	</geometry>
+	<material name="Grey"/>
+      </collision>
+    </link>
+
+    <!-- joint between link_5 and link_6 -->
+    <joint name="${robot_name}_joint_6" type="revolute">
+      <parent link="${robot_name}_link_5"/>
+      <child link="${robot_name}_link_6"/>
+      <origin xyz="0.025 0 0" rpy="0 ${PI / 2} 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-78.0 * PI / 180}" upper="${123.0 * PI / 180}"
+	     effort="${max_effort}" velocity="${max_velocity}" />
+      <safety_controller soft_lower_limit="${-77 * PI / 180}"
+			 soft_upper_limit="${122 * PI / 180}"
+			 k_position="${safety_controller_k_pos}"
+			 k_velocity="${safety_controller_k_vel}"/>
+      <dynamics damping="${joint_damping}"/>
+    </joint>
+
+    <link name="${robot_name}_link_6">
+      <inertial>
+	<origin xyz="0.0125 0.0 0.0" rpy="0 0 0"/>
+	<mass value="0.010"/>
+	<inertia ixx="0.001"  ixy="0"  ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+      </inertial>
+
+      <visual>
+	<origin xyz="0 0 0" rpy="${PI / 2} 0 0"/>
+	<geometry>
+	  <mesh filename="package://mini_servo_model/urdf/meshes/visual/link_6.stl" scale="0.001 0.001 0.001"/>
+	</geometry>
+	<material name="Grey"/>
+      </visual>
+
+      <collision>
+	<origin xyz="0 0 0" rpy="${PI / 2} 0 0"/>
+	<geometry>
+	  <mesh filename="package://mini_servo_model/urdf/meshes/collision/link_6.stl" scale="0.001 0.001 0.001"/>
+	</geometry>
+	<material name="Grey"/>
+      </collision>
+    </link>
+
+    <joint name="${robot_name}_joint_ee" type="fixed">
+      <parent link="${robot_name}_link_6"/>
+      <child link="${robot_name}_link_ee"/>
+      <origin xyz="0 0 0.010" rpy="0 0 0"/>
+    </joint>
+
+    <link name="${robot_name}_link_ee">
+    </link>
+
+    <!--Extensions -->
+    <xacro:mini_servo_gazebo robot_name="${robot_name}" />
+    <xacro:mini_servo_transmission hardware_interface="${hardware_interface}"/>
+
+  </xacro:macro>
+
+</robot>
