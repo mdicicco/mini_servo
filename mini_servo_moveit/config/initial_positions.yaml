@@ -1,0 +1,8 @@
+# Default initial positions for ros2_control mock hardware
+initial_positions:
+  mini_servo_joint_1: 0.0
+  mini_servo_joint_2: 0.0
+  mini_servo_joint_3: 0.0
+  mini_servo_joint_4: 0.0
+  mini_servo_joint_5: 0.0
+  mini_servo_joint_6: 0.0

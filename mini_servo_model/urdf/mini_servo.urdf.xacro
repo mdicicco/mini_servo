@@ -1,24 +1,41 @@
 <?xml version="1.0"?>
 <robot name="mini_servo" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <!-- Import Rviz colors -->
+  <!-- Import RViz colors -->
   <xacro:include filename="$(find mini_servo_model)/urdf/materials.xacro" />
 
-  <!--Import the mini_servo macro -->
+  <!-- Import the mini_servo macro -->
   <xacro:include filename="$(find mini_servo_model)/urdf/mini_servo.xacro"/>
 
-  <!--Parameters -->
-  <xacro:arg name="hardware_interface" default="PositionJointInterface"/>
+  <xacro:arg name="ros2_control_hardware_type" default="mock_components"/>
+  <xacro:arg name="use_gazebo" default="false"/>
+  <xacro:arg name="gazebo_controllers_file" default=""/>
+  <xacro:arg name="serial_port" default="/dev/ttyUSB0"/>
+  <xacro:arg name="baud_rate" default="500000"/>
   <xacro:arg name="robot_name" default="mini_servo"/>
   <xacro:arg name="origin_xyz" default="0 0 0"/>
   <xacro:arg name="origin_rpy" default="0 0 0"/>
 
-  <!-- Fix to world, change if mounted to something -->
+  <!-- Fix to world; change if mounted to something else -->
   <link name="world"/>
 
-  <!--mini_servo robot-->
-  <xacro:mini_servo hardware_interface="$(arg hardware_interface)" robot_name="$(arg robot_name)" parent="world">
+  <xacro:mini_servo
+      robot_name="$(arg robot_name)"
+      parent="world"
+      ros2_control_hardware_type="$(arg ros2_control_hardware_type)"
+      serial_port="$(arg serial_port)"
+      baud_rate="$(arg baud_rate)">
     <origin xyz="$(arg origin_xyz)" rpy="$(arg origin_rpy)" />
   </xacro:mini_servo>
+
+  <xacro:if value="$(arg use_gazebo)">
+    <gazebo>
+      <plugin filename="libgz_ros2_control-system.so" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+        <parameters>$(arg gazebo_controllers_file)</parameters>
+        <hold_joints>true</hold_joints>
+        <position_proportional_gain>25.0</position_proportional_gain>
+      </plugin>
+    </gazebo>
+  </xacro:if>
 
 </robot>

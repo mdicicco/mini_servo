@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mini_servo">
+  <!-- Wrapper so MoveItConfigsBuilder can load the description from this package. -->
+  <xacro:arg name="ros2_control_hardware_type" default="mock_components"/>
+  <xacro:include filename="$(find mini_servo_model)/urdf/materials.xacro"/>
+  <xacro:include filename="$(find mini_servo_model)/urdf/mini_servo.xacro"/>
+  <link name="world"/>
+  <xacro:mini_servo
+      robot_name="mini_servo"
+      parent="world"
+      ros2_control_hardware_type="$(arg ros2_control_hardware_type)">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:mini_servo>
+</robot>

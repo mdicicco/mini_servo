@@ -1,11 +1,16 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.22)
 project(mini_servo_model)
 
-find_package(catkin REQUIRED)
+find_package(ament_cmake REQUIRED)
 
-catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES iiwa_description
-#  CATKIN_DEPENDS other_catkin_pkg
-#  DEPENDS system_lib
+install(
+  DIRECTORY urdf launch rviz
+  DESTINATION share/${PROJECT_NAME}
 )
+
+install(
+  PROGRAMS scripts/shutdown_wrapper.py
+  DESTINATION share/${PROJECT_NAME}/scripts
+)
+
+ament_package()

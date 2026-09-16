@@ -1,0 +1,11 @@
+<library path="mini_servo_hardware">
+  <class
+    name="mini_servo_hardware/MiniServoHardware"
+    type="mini_servo_hardware::MiniServoHardware"
+    base_class_type="hardware_interface::SystemInterface">
+    <description>
+      Serial ros2_control hardware plugin for the mini servo Arduino firmware.
+      Position commands are forwarded over serial as comma-separated degrees.
+    </description>
+  </class>
+</library>

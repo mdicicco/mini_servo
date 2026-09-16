@@ -4,8 +4,8 @@
   <!-- Import all Gazebo-customization elements, including Gazebo colors -->
   <xacro:include filename="$(find mini_servo_model)/urdf/mini_servo.gazebo.xacro" />
 
-  <!-- Import Transmissions -->
-  <xacro:include filename="$(find mini_servo_model)/urdf/mini_servo.transmission.xacro" />
+  <!-- Import ros2_control hardware interfaces -->
+  <xacro:include filename="$(find mini_servo_model)/urdf/mini_servo.ros2_control.xacro" />
 
   <!-- Include Utilities -->
   <xacro:include filename="$(find mini_servo_model)/urdf/utilities.xacro" />
@@ -17,7 +17,7 @@
   <xacro:property name="max_effort" value="300"/>
   <xacro:property name="max_velocity" value="10"/>
 
-  <xacro:macro name="mini_servo" params="parent hardware_interface robot_name *origin">
+  <xacro:macro name="mini_servo" params="parent robot_name ros2_control_hardware_type:=mock_components serial_port:=/dev/ttyUSB0 baud_rate:=500000 *origin">
 
     <!--joint between {parent} and link_0-->
     <joint name="${parent}_${robot_name}_joint" type="fixed">
@@ -303,7 +303,11 @@
 
     <!--Extensions -->
     <xacro:mini_servo_gazebo robot_name="${robot_name}" />
-    <xacro:mini_servo_transmission hardware_interface="${hardware_interface}"/>
+    <xacro:mini_servo_ros2_control
+        robot_name="${robot_name}"
+        ros2_control_hardware_type="${ros2_control_hardware_type}"
+        serial_port="${serial_port}"
+        baud_rate="${baud_rate}"/>
 
   </xacro:macro>
 

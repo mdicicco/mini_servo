@@ -1,0 +1,26 @@
+# ros_gz_bridge mappings for the mini servo Gazebo sim.
+# Clock is required so gz_ros2_control's controller_manager uses sim time.
+- ros_topic_name: "/clock"
+  gz_topic_name: "/clock"
+  ros_type_name: "rosgraph_msgs/msg/Clock"
+  gz_type_name: "gz.msgs.Clock"
+  direction: GZ_TO_ROS
+  lazy: false
+  qos_profile: CLOCK
+
+# World pose of every entity. Lazy so it does not run unless something
+# subscribes; kept on a separate topic so it does not fight /tf.
+- ros_topic_name: "/gazebo/pose/info"
+  gz_topic_name: "/world/empty/pose/info"
+  ros_type_name: "tf2_msgs/msg/TFMessage"
+  gz_type_name: "gz.msgs.Pose_V"
+  direction: GZ_TO_ROS
+  lazy: true
+
+# Simulation timing / real-time factor.
+- ros_topic_name: "/gazebo/world_stats"
+  gz_topic_name: "/world/empty/stats"
+  ros_type_name: "ros_gz_interfaces/msg/WorldStatistics"
+  gz_type_name: "gz.msgs.WorldStatistics"
+  direction: GZ_TO_ROS
+  lazy: true

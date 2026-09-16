@@ -1,0 +1,55 @@
+[workspace]
+name = "mini_servo"
+version = "1.0.0"
+description = "Mini servo arm ROS 2 workspace (RoboStack via Pixi)"
+channels = [
+  "https://prefix.dev/conda-forge",
+  "https://prefix.dev/robostack-lyrical",
+]
+platforms = ["osx-arm64"]
+
+[activation]
+scripts = ["scripts/ros_activate.sh"]
+
+[target.osx.activation.env]
+RMW_IMPLEMENTATION = "rmw_cyclonedds_cpp"
+ROS_AUTOMATIC_DISCOVERY_RANGE = "LOCALHOST"
+QT_MAC_WANTS_LAYER = "1"
+OGRE_RTT_MODE = "Copy"
+
+[dependencies]
+python = "*"
+compilers = "*"
+cmake = "*"
+pkg-config = "*"
+make = "*"
+ninja = "*"
+colcon-common-extensions = "*"
+ros-dev-tools = "*"
+ros-lyrical-desktop = "*"
+ros-lyrical-xacro = "*"
+ros-lyrical-joint-state-publisher = "*"
+ros-lyrical-joint-state-publisher-gui = "*"
+ros-lyrical-moveit = "*"
+ros-lyrical-moveit-configs-utils = "*"
+ros-lyrical-ros2-control = "*"
+ros-lyrical-controller-manager = "*"
+ros-lyrical-hardware-interface = "*"
+ros-lyrical-joint-state-broadcaster = "*"
+ros-lyrical-joint-trajectory-controller = "*"
+ros-lyrical-forward-command-controller = "*"
+ros-lyrical-pluginlib = "*"
+ros-lyrical-rmw-cyclonedds-cpp = "*"
+ros-lyrical-gz-ros2-control = "*"
+ros-lyrical-ros-gz-sim = "*"
+ros-lyrical-ros-gz-bridge = "*"
+ros-lyrical-ros-gz-interfaces = "*"
+ros-lyrical-joy = "*"
+pyside6 = "*"
+
+[tasks]
+build = { cmd = "colcon build --symlink-install --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPython_FIND_VIRTUALENV=ONLY -DPython3_FIND_VIRTUALENV=ONLY" }
+visualize = { cmd = "ros2 launch mini_servo_model visualize_robot.launch.py", depends-on = ["build"] }
+demo = { cmd = "ros2 launch mini_servo_moveit demo.launch.py", depends-on = ["build"] }
+gazebo = { cmd = "ros2 launch mini_servo_gazebo sim.launch.py", depends-on = ["build"] }
+hardware = { cmd = "ros2 launch mini_servo_hardware hardware.launch.py", depends-on = ["build"] }

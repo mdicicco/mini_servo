@@ -1,12 +1,11 @@
 cmake_minimum_required(VERSION 3.22)
-project(mini_servo_moveit)
+project(mini_servo_gazebo)
 
 find_package(ament_cmake REQUIRED)
 
 install(
-  DIRECTORY launch config
+  DIRECTORY config launch
   DESTINATION share/${PROJECT_NAME}
 )
-install(FILES .setup_assistant DESTINATION share/${PROJECT_NAME})
 
 ament_package()

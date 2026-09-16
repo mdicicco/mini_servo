@@ -1,0 +1,26 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    forward_position_controller:
+      type: forward_command_controller/ForwardCommandController
+
+joint_state_broadcaster:
+  ros__parameters: {}
+
+# Same feedforward controller as Gazebo. Commands are written to the serial
+# hardware plugin instead of gz_ros2_control.
+forward_position_controller:
+  ros__parameters:
+    type: forward_command_controller/ForwardCommandController
+    joints:
+      - mini_servo_joint_1
+      - mini_servo_joint_2
+      - mini_servo_joint_3
+      - mini_servo_joint_4
+      - mini_servo_joint_5
+      - mini_servo_joint_6
+    interface_name: position

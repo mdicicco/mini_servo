@@ -1,8 +1,8 @@
 moveit_setup_assistant_config:
   URDF:
-    package: ""
-    relative_path: /home/mdicicco/mini_servo.urdf
-    xacro_args: "--inorder "
+    package: mini_servo_model
+    relative_path: urdf/mini_servo.urdf.xacro
+    xacro_args: ""
   SRDF:
     relative_path: config/mini_servo.srdf
   CONFIG:

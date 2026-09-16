@@ -1,34 +1,34 @@
-# joint_limits.yaml allows the dynamics properties specified in the URDF to be overwritten or augmented as needed
-# Specific joint properties can be changed with the keys [max_position, min_position, max_velocity, max_acceleration]
-# Joint limits can be turned off with [has_velocity_limits, has_acceleration_limits]
+# Joint limits override/augment the URDF dynamics.
+default_velocity_scaling_factor: 0.1
+default_acceleration_scaling_factor: 0.1
 joint_limits:
   mini_servo_joint_1:
     has_velocity_limits: true
-    max_velocity: 10
-    has_acceleration_limits: false
-    max_acceleration: 0
+    max_velocity: 10.0
+    has_acceleration_limits: true
+    max_acceleration: 5.0
   mini_servo_joint_2:
     has_velocity_limits: true
-    max_velocity: 10
-    has_acceleration_limits: false
-    max_acceleration: 0
+    max_velocity: 10.0
+    has_acceleration_limits: true
+    max_acceleration: 5.0
   mini_servo_joint_3:
     has_velocity_limits: true
-    max_velocity: 10
-    has_acceleration_limits: false
-    max_acceleration: 0
+    max_velocity: 10.0
+    has_acceleration_limits: true
+    max_acceleration: 5.0
   mini_servo_joint_4:
     has_velocity_limits: true
-    max_velocity: 10
-    has_acceleration_limits: false
-    max_acceleration: 0
+    max_velocity: 10.0
+    has_acceleration_limits: true
+    max_acceleration: 5.0
   mini_servo_joint_5:
     has_velocity_limits: true
-    max_velocity: 10
-    has_acceleration_limits: false
-    max_acceleration: 0
+    max_velocity: 10.0
+    has_acceleration_limits: true
+    max_acceleration: 5.0
   mini_servo_joint_6:
     has_velocity_limits: true
-    max_velocity: 10
-    has_acceleration_limits: false
-    max_acceleration: 0
+    max_velocity: 10.0
+    has_acceleration_limits: true
+    max_acceleration: 5.0

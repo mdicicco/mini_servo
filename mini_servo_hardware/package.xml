@@ -1,38 +1,31 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>mini_servo_moveit</name>
+  <name>mini_servo_hardware</name>
   <version>1.0.0</version>
   <description>
-    MoveIt 2 configuration and launch files for the mini_servo robot
+    ros2_control hardware plugin and bringup for the real mini servo arm over serial
   </description>
   <maintainer email="mdicicco@gmail.com">Matt DiCicco</maintainer>
   <license>BSD</license>
   <author email="mdicicco@gmail.com">Matt DiCicco</author>
-  <url type="website">https://moveit.ai/</url>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <depend>hardware_interface</depend>
+  <depend>pluginlib</depend>
+  <depend>rclcpp</depend>
+  <depend>rclcpp_lifecycle</depend>
+
   <exec_depend>controller_manager</exec_depend>
-  <exec_depend>hardware_interface</exec_depend>
+  <exec_depend>forward_command_controller</exec_depend>
   <exec_depend>joint_state_broadcaster</exec_depend>
-  <exec_depend>joy</exec_depend>
-  <exec_depend>joint_state_publisher</exec_depend>
-  <exec_depend>joint_state_publisher_gui</exec_depend>
-  <exec_depend>joint_trajectory_controller</exec_depend>
+  <exec_depend>launch</exec_depend>
   <exec_depend>launch_ros</exec_depend>
   <exec_depend>mini_servo_model</exec_depend>
-  <exec_depend>moveit_configs_utils</exec_depend>
-  <exec_depend>moveit_kinematics</exec_depend>
-  <exec_depend>moveit_planners</exec_depend>
-  <exec_depend>moveit_ros_move_group</exec_depend>
-  <exec_depend>moveit_ros_visualization</exec_depend>
-  <exec_depend>moveit_setup_assistant</exec_depend>
-  <exec_depend>moveit_simple_controller_manager</exec_depend>
   <exec_depend>robot_state_publisher</exec_depend>
   <exec_depend>ros2_control</exec_depend>
   <exec_depend>rviz2</exec_depend>
-  <exec_depend>tf2_ros</exec_depend>
   <exec_depend>xacro</exec_depend>
 
   <export>
