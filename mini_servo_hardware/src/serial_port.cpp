@@ -5,12 +5,14 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
-#include <termios.h>
 
+// On Linux, use the kernel termios2 API so arbitrary baud rates (e.g. 500000) work.
+// <asm/termbits.h> and glibc's <termios.h> both define struct termios, so only one
+// of them may be included.
 #ifdef __APPLE__
+#include <termios.h>
 #include <IOKit/serial/ioss.h>
 #else
-#include <asm/ioctls.h>
 #include <asm/termbits.h>
 #endif
 
@@ -38,6 +40,7 @@ bool SerialPort::open(const std::string & device, int baud_rate)
     return false;
   }
 
+#ifdef __APPLE__
   struct termios tio;
   if (tcgetattr(fd_, &tio) < 0) {
     close();
@@ -55,7 +58,6 @@ bool SerialPort::open(const std::string & device, int baud_rate)
     return false;
   }
 
-#ifdef __APPLE__
   speed_t speed = static_cast<speed_t>(baud_rate);
   if (ioctl(fd_, IOSSIOSPEED, &speed) < 0) {
     close();
@@ -71,6 +73,7 @@ bool SerialPort::open(const std::string & device, int baud_rate)
   tio2.c_cflag |= BOTHER;
   tio2.c_ispeed = static_cast<speed_t>(baud_rate);
   tio2.c_ospeed = static_cast<speed_t>(baud_rate);
+  tio2.c_cflag &= ~CSIZE;
   tio2.c_cflag |= CLOCAL | CREAD | CS8;
   tio2.c_cflag &= ~(PARENB | CSTOPB | CRTSCTS);
   tio2.c_iflag &=
